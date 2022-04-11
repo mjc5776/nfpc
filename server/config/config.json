@@ -1,0 +1,19 @@
+{
+  "development": {
+    "send_emails": false,
+    "username": "dbuser",
+    "password": "Br0nk0s19!",
+    "database": "NFPC_Dev",
+    "host": "dovsv-db03",
+    "dialect": "mssql",
+    "logging": false,
+    "define": {
+      "timestamps": false
+    },
+    "dialectOptions": {
+      "useUTC": false,
+      "dateStrings": true,
+      "typeCast": true
+    }
+  }
+}
