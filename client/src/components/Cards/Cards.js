@@ -5,7 +5,8 @@ import '../Search/search.css';
 
 
 const Cards = ({ playerID, playerName, contract }) => {
-
+  console.log('## Player ID', playerID);
+  console.log('Cards Render');
   return (
     <div>
         <div className="cards">
@@ -18,7 +19,7 @@ const Cards = ({ playerID, playerName, contract }) => {
                         src='\images\PlayerCard.jpg'
                         // text="Cheer Photo"
                         // label='Cheer'
-                        path='/interviewscoring'
+                        path='/playerdetail'
                         playerName={playerName}
                         contract={contract}
                         id={playerID}

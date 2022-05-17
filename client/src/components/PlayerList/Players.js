@@ -8,17 +8,18 @@ const Players = () => {
     const [playerData, setPlayerData] = useState(null)
     const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState(null)
+    console.log('Players Render');
 
     useEffect(() => {
         const abortCont = new AbortController();
-          fetch(`${process.env.REACT_APP_HOST_NAME}/Players`, { 
+          fetch(`${process.env.REACT_APP_HOST_NAME}/players`, { 
             signal: abortCont.signal,
     
            })
               .then(res => {
-                   console.log('Events response', res);
+                  //  console.log('Events response', res);
                   if(!res.ok) {
-                    throw Error('Could not fetch event data')  
+                    throw Error('Could not fetch data')  
                   }
                   return res.json()
               })
@@ -26,7 +27,7 @@ const Players = () => {
                 setIsPending(false)
                 setError(null)
                 setPlayerData(data)
-                console.log("player data", data);
+                // console.log("player data", data);
                 { error && <div>{ error }</div>}
                 { isPending && <div>Loading...</div>}
               })
@@ -39,6 +40,7 @@ const Players = () => {
                 }       
               })
         return () => abortCont.abort();
+
       }, []);
 
   return (

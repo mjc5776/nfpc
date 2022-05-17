@@ -1,0 +1,29 @@
+.comp {
+    position: absolute;
+    bottom: 50px;
+    left: 12px;
+    color: #FF5200;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: sans-serif;
+  }
+
+  .compRemain {
+    position: absolute;
+    bottom: 25px;
+    left: 12px;
+    color: #0A2313;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: sans-serif;
+  }
+
+  .ytdApp {
+    position: absolute;
+    top: 90px;
+    left: 12px;
+    color: #FF5200;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: sans-serif;
+  }

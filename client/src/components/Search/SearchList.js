@@ -4,7 +4,8 @@ import './search.css';
 
 
 function SearchList({ filteredPlayers }) {
-  
+  console.log('##Filtered Players', filteredPlayers);
+  console.log('Search List Render');
   return (
     <div className="img-grid">
       {filteredPlayers && filteredPlayers.map(data => (
