@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   MDBContainer,
   MDBNavbar,
@@ -13,9 +14,13 @@ import {
 } from 'mdb-react-ui-kit';
 
 
-const Navbar = () => {
-
+const Navbar = () => { 
+    const params = useParams();
     const [showNavSecond, setShowNavSecond] = useState(false);
+    const [PlayerID, setPlayerID] = useState();
+    
+    const paramID = params.id;
+    // setPlayerID(paramID)
 
   return (
     <MDBNavbar expand='lg' light bgColor='light'>
@@ -33,11 +38,17 @@ const Navbar = () => {
             <MDBNavbarLink active aria-current='page' href='/'>
               Home
             </MDBNavbarLink>
+            <MDBNavbarLink active aria-current='page' href='/'>
+              Pending Requests
+            </MDBNavbarLink>
+            <MDBNavbarLink active aria-current='page' href='/'>
+              Approved Requests
+            </MDBNavbarLink>
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>
       <form className='container-fluid justify-content-end'>
-        <MDBBtn outline color="success" className='me-2' type='button'>
+        <MDBBtn tag='a' outline color="primary" className='me-2' href={`/newrequest/${paramID}`}>
           New Request
         </MDBBtn>
       </form>

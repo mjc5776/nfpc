@@ -7,6 +7,7 @@ import Locked from './components/Locked';
 import Profile from './components/Profile';
 import Players from './components/PlayerList/Players';
 import PlayerDetail from './components/PlayerDetail/PlayerDetail';
+import NewRequest from './components/Requests/NewRequest';
 import { oktaConfig } from './lib/oktaConfig';
 import Navbar from './components/Nav/Navbar';
 
@@ -28,6 +29,7 @@ const App = () => {
         <Switch>
           <Route path='/' exact component={Players} />
           <Route path='/playerdetail/:id' component={PlayerDetail} />
+          <Route path='/newrequest/:id' component={NewRequest} />
           <Route path={CALLBACK_PATH} exact component={LoginCallback} />
           <SecureRoute path='/locked' exact component={Locked} />
           <SecureRoute path='/profile' component={Profile} />

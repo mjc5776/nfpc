@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import RequestHistory from '../Requests/RequestHistory';
-import PlayerHeader from './PlayerHeader';
+import PlayerHeader from '../PlayerHeader/PlayerHeader';
 import Navbar from '../Nav/Navbar';
 
 const PlayerDetail = () => {
@@ -11,7 +11,9 @@ const PlayerDetail = () => {
 
   return (
     <>
-    <Navbar />
+      <Navbar
+        id={paramID}
+    />
       <PlayerHeader
         id={paramID}
       />

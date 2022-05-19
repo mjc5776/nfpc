@@ -46,7 +46,7 @@ const RequestHistory = () => {
     }, []);
 
   return (
-    <MDBContainer>
+    // <MDBContainer>
       <MDBTable striped>
         <MDBTableHead>
           <tr>
@@ -81,7 +81,7 @@ const RequestHistory = () => {
         ))}
         </MDBTableBody>
       </MDBTable>
-      </MDBContainer>
+      // </MDBContainer>
   );
 };
 

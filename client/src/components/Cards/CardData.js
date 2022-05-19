@@ -63,8 +63,8 @@ const CardData = ({ id }) => {
       {isPending && <div>Loading...</div>}
       {ytdComp && (
         <>
-        <div className='comp'>YTD: {ytdComp} </div>
-        <div className='compRemain'> Remaining: {compRemaining}</div>
+        <div className='comp'>YTD Comp: {ytdComp} </div>
+        <div className='compRemain'> Comp Remaining: {compRemaining}</div>
         <div className='ytdApp'> YTD Appearances: {ytdApp}</div>
         </>
       )}
