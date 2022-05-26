@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   MDBContainer,
   MDBRow,
@@ -10,6 +11,7 @@ import {
 } from 'mdb-react-ui-kit';
 import PlayerHeader from '../PlayerHeader/PlayerHeader';
 import { useParams, useHistory } from 'react-router-dom';
+
 const NewRequest = () => {
   const [requestData, setRequestData] = useState(null);
   const [isPending, setIsPending] = useState(true);
@@ -17,18 +19,59 @@ const NewRequest = () => {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [acctNum, setAcctNum] = useState();
-  const [pdType, setPDType] = useState(null);
-  const [pdTime, setPDTime] = useState(null);
-  const [pdQty, setPDQty] = useState(null);
-  const [pdDate, setPDDate] = useState(null);
-  const [pdLocation, setPDLocation] = useState(null);
-  const [pdNotes, setPDNotes] = useState(null);
-  const [cdType, setCDType] = useState(null);
-  const [fmv, setFMV] = useState(null);
-  const [cdNotes, setCDNotes] = useState(null);
+  const [pdType, setPDType] = useState();
+  const [pdTime, setPDTime] = useState();
+  const [pdQty, setPDQty] = useState();
+  const [pdDate, setPDDate] = useState();
+  const [pdLocation, setPDLocation] = useState();
+  const [pdNotes, setPDNotes] = useState();
+  const [cdType, setCDType] = useState();
+  const [fmv, setFMV] = useState();
+  const [cdNotes, setCDNotes] = useState();
 
   const params = useParams();
   const paramID = params.id;
+
+  let history = useHistory();
+
+  const createRequest = () => {
+    console.log('Create request');
+
+    const newRequest = {
+      PlayerID: paramID,
+      RequestDate: '2022-05-20',
+      RequestUser: 'Mike Corey',
+      RequestEmail: 'Mike.Corey@broncos.nfl.net',
+      RequestTitle: title,
+      ReqDescription: description,
+      AcctNum: acctNum,
+      PDType: pdType,
+      PDTime: pdTime,
+      PDQty: pdQty,
+      PDDate: pdDate,
+      PDLocation: pdLocation,
+      PDComments: pdNotes,
+      CDType: cdType,
+      FMV: fmv,
+      CDComments: cdNotes 
+
+  };
+
+  console.log('Request Data', newRequest);
+
+  axios.post(`${process.env.REACT_APP_HOST_NAME}/request/new`, newRequest)
+      .then(history.goBack())
+      .catch(error => {
+          this.setError({ errorMessage: error.message });
+          console.error('There was an error!', error);
+      });
+
+};
+
+const handlePDDate=(pdDate) => {
+    setPDDate(pdDate);
+}
+
   return (
     <>
       <PlayerHeader />
@@ -74,11 +117,10 @@ const NewRequest = () => {
           </div>
           <hr />
           <h1>Player Deliverable</h1>
-          <div className='mb-3'>
-            <label htmlFor='pdType' className='form-label pdType'>
-              Type:
-            </label>
-            <div className='col-md-1'>
+          
+          <div className='mb-4'>
+            <div className='row'>
+              <div className='col-sm-3'>
               <select
                 required
                 className='form-select'
@@ -89,7 +131,7 @@ const NewRequest = () => {
                 }}
               >
                 <option value='' defaultValue>
-                  Select
+                  Type
                 </option>
                 <option value='1'>Autograph</option>
                 <option value='2'>Meet and Greet</option>
@@ -102,12 +144,10 @@ const NewRequest = () => {
               </select>
             </div>
           </div>
+          </div>
           <div className='mb-4'>
             <div className='row'>
-              <label htmlFor='pdTime' className='form-label pdType'>
-                Time/Qty:
-              </label>
-              <div className='col-md-1'>
+              <div className='col-sm-2'>
                 <MDBInput 
                     label='Time' 
                     id='pdTime' 
@@ -121,7 +161,6 @@ const NewRequest = () => {
               <div className='col-sm-2'>
                 <select
                   className='form-select'
-                  //value={!interviewData[0].OverallScore ? "" : interviewData[0].OverallScore }
                   id='pdQty'
                   onChange={(e) => {
                     const selectedQty = e.target.value;
@@ -144,11 +183,12 @@ const NewRequest = () => {
               <div className='col-sm-2'>
                 <MDBDatepicker 
                     format='mm/dd/yyyy' 
-                    inputToggle 
-                    onChange={(e) => {
-                        const selectedDate = e.target.value;
-                        setPDDate(selectedDate);
-                      }}
+                    inputToggle
+                    onChange={handlePDDate} 
+                    // onChange={(e) => {
+                    //     const selectedDate = e.target.value;
+                    //     setPDDate(selectedDate);
+                    //   }}
                     />
               </div>
             </div>
@@ -199,13 +239,14 @@ const NewRequest = () => {
                   <option value='' defaultValue>
                     Type
                   </option>
-                  <option value='Hours'>Cash</option>
-                  <option value='Minutes'>Charity Contribution</option>
-                  <option value='Units'>Gift Certificate</option>
-                  <option value='Units'>Merchandise</option>
-                  <option value='Units'>Suites</option>
-                  <option value='Units'>Tuition Reimbursement</option>
-                  <option value='Units'>Other</option>
+                  <option value='1'>Cash</option>
+                  <option value='2'>Charity Contribution</option>
+                  <option value='3'>Gift Certificate</option>
+                  <option value='4'>Merchandise</option>
+                  <option value='5'>Suites</option>
+                  <option value='6'>Tickets</option>
+                  <option value='7'>Tuition Reimbursement</option>
+                  <option value='8'>Other</option>
                 </select>
               </div>
             </div>
@@ -246,7 +287,7 @@ const NewRequest = () => {
             <MDBBtn
               className='mb-4'
               block
-              //onClick={() => submitInterviewScore()}
+              onClick={() => createRequest()}
             >
               Submit
             </MDBBtn>
@@ -255,7 +296,7 @@ const NewRequest = () => {
             outline
             className='mb-4'
             block
-            //onClick={() => history.goBack()}
+            onClick={() => history.goBack()}
           >
             Cancel
           </MDBBtn>

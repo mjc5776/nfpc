@@ -101,6 +101,57 @@ router.get('/players', async (req, res) => {
     
   });
 
+  router.post('/request/new', async (req, res) => {
+    console.log('RequestBody', req.body);
+  
+     try {
+  
+      let request = {
+         PlayerID: req.body.PlayerID,
+         RequestDate: req.body.RequestDate,
+         RequestUser: req.body.RequestUser,
+         RequestUserEmail: req.body.RequestEmail,
+         RequestTitle: req.body.RequestTitle,
+         ReqDescription: req.body.ReqDescription,
+         AcctNum:req.body.AcctNum 
+      };
+  
+      const appReq = await db.Request.create(request);
+      
+
+      let playerDeliver = {
+        RequestID: appReq.RequestID,
+        PDType: req.body.PDType,
+        PDTime: req.body.PDTime,
+        PDQty: req.body.PDQty,
+        PDDate: req.body.PDDate,
+        PDLocation: req.body.PDLocation,
+        PDComments: req.body.PDComments,
+      }
+      const pd = await db.PlayerDeliverable.create(playerDeliver);
+      
+      let clubDeliver = {
+        RequestID: appReq.RequestID,
+        CDType: req.body.CDType,
+        FMV: req.body.FMV,
+        CDComments: req.body.CDComments,
+      }
+
+      const cd = await db.ClubDeliverable.create(clubDeliver);
+
+      let reqStatus = {
+        RequestID: appReq.RequestID,
+        RequestStatus: 1
+      }
+
+      const status = await db.RequestStatus.create(reqStatus);
+
+    } catch (e) {
+      console.log(e);
+      res.status(400).json();
+    }
+  });
+
 
   
  
