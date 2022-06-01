@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         UpdateDate: {
             type: DataTypes.DATEONLY
         },
-        UpdateBy: {
+        UpdatedBy: {
             type: DataTypes.STRING
         },
         ApproveDate: {

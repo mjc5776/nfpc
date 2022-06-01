@@ -65,12 +65,12 @@ const RequestHistory = () => {
         {requestData.map((row, index) => (
           <tr key={row.RequestID}>
           <td className='row-data'>{index + 1}</td>
-          <td className='finalist-num'>{row.RequestTitle}</td>
+          <td className=''>{row.RequestTitle}</td>
           <td className='row-data'>{row.ReqDescription}</td>
           <td className='row-data'>{row.PDType}</td>
           <td className='row-data'>{row.PDDate}</td>
-          <td className='total-score'>{row.CompValue}</td>
-          <td className='total-score'>{row.RequestStatus}</td>
+          <td className=''>{row.CompValue}</td>
+          <td className=''>{row.RequestStatus}</td>
           <td>
             <MDBBtn>Delete</MDBBtn>
           </td>

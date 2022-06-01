@@ -101,6 +101,82 @@ router.get('/players', async (req, res) => {
     
   });
 
+
+  router.get('/player/request/pending', async (req, res) => { 
+
+    
+    let data = await db.sequelize.query(
+      "SELECT dbo.Request.RequestDate, dbo.Request.RequestUser, dbo.Player.FirstName + ' ' + dbo.Player.LastName AS PlayerName," +
+      " dbo.PDType.PDType, dbo.Request.RequestTitle, dbo.Request.ReqDescription, dbo.PlayerDeliverable.PDDate," +
+      " dbo.PlayerDeliverable.PDLocation, dbo.PlayerDeliverable.PDTime + ' ' + dbo.PlayerDeliverable.PDQty AS PDTime," +
+      " dbo.PlayerDeliverable.PDComments, dbo.ClubDeliverable.FMV, dbo.Request.RequestID, dbo.ClubDeliverable.CDType," +
+      " dbo.Player.PlayerID, dbo.RequestStatus.RequestStatus, dbo.RequestStatus.Comments AS RQStatusComments" +
+      " FROM dbo.Request INNER JOIN dbo.Player ON dbo.Request.PlayerID = dbo.Player.PlayerID INNER JOIN" +
+      " dbo.PlayerDeliverable ON dbo.Request.RequestID = dbo.PlayerDeliverable.RequestID INNER JOIN" +
+      " dbo.ClubDeliverable ON dbo.Request.RequestID = dbo.ClubDeliverable.RequestID INNER JOIN" +
+      " dbo.PDType ON dbo.PlayerDeliverable.PDType = dbo.PDType.PDTypeID INNER JOIN" +
+      " dbo.RequestStatus ON dbo.Request.RequestID = dbo.RequestStatus.RequestID WHERE (dbo.RequestStatus.RequestStatus = 0)"
+      ,
+      {
+        nest: true,
+        replacements: {
+          ID: req.params.ID
+        },
+      }
+    );
+  
+    res.json(data);
+    
+  });
+
+  router.get('/player/request/paid', async (req, res) => { 
+
+    
+    let data = await db.sequelize.query(
+      "SELECT dbo.Request.RequestDate, dbo.Compensation.CompDate, dbo.Request.RequestUser, dbo.Compensation.CompValue," +
+      " dbo.Compensation.ChkNbr, dbo.Player.FirstName + ' ' + dbo.Player.LastName AS PlayerName, dbo.Request.AcctNum," +
+      " dbo.RequestStatus.RequestStatus, dbo.RequestStatus.UpdatedBy, dbo.Compensation.CompensationID, dbo.PlayerDeliverable.PDDate," +
+      " dbo.Request.RequestTitle, dbo.Request.RequestID FROM dbo.RequestStatus INNER JOIN dbo.Request INNER JOIN" +
+      " dbo.Player ON dbo.Request.PlayerID = dbo.Player.PlayerID INNER JOIN dbo.PlayerDeliverable ON dbo.Request.RequestID = dbo.PlayerDeliverable.RequestID" +
+      " INNER JOIN dbo.ClubDeliverable ON dbo.Request.RequestID = dbo.ClubDeliverable.RequestID INNER JOIN" +
+      " dbo.PDType ON dbo.PlayerDeliverable.PDType = dbo.PDType.PDTypeID ON dbo.RequestStatus.RequestID = dbo.Request.RequestID" +
+      " LEFT OUTER JOIN dbo.Compensation INNER JOIN dbo.CDType ON dbo.Compensation.Compensation = dbo.CDType.CDTypeID" +
+      " ON dbo.Request.RequestID = dbo.Compensation.RequestID WHERE RequestStatus = 3"
+      ,
+      {
+        nest: true,
+        
+      }
+    );
+  
+    res.json(data);
+    
+  });
+
+  router.get('/player/request/approved', async (req, res) => { 
+
+    
+    let data = await db.sequelize.query(
+      "SELECT dbo.Request.RequestDate, dbo.Compensation.CompDate, dbo.Request.RequestUser, dbo.Compensation.CompValue," +
+      " dbo.Compensation.ChkNbr, dbo.Player.FirstName + ' ' + dbo.Player.LastName AS PlayerName, dbo.Request.AcctNum," +
+      " dbo.RequestStatus.RequestStatus, dbo.RequestStatus.UpdatedBy, dbo.Compensation.CompensationID, dbo.PlayerDeliverable.PDDate," +
+      " dbo.Request.RequestTitle, dbo.Request.RequestID FROM dbo.RequestStatus INNER JOIN dbo.Request INNER JOIN" +
+      " dbo.Player ON dbo.Request.PlayerID = dbo.Player.PlayerID INNER JOIN dbo.PlayerDeliverable ON dbo.Request.RequestID = dbo.PlayerDeliverable.RequestID" +
+      " INNER JOIN dbo.ClubDeliverable ON dbo.Request.RequestID = dbo.ClubDeliverable.RequestID INNER JOIN" +
+      " dbo.PDType ON dbo.PlayerDeliverable.PDType = dbo.PDType.PDTypeID ON dbo.RequestStatus.RequestID = dbo.Request.RequestID" +
+      " LEFT OUTER JOIN dbo.Compensation INNER JOIN dbo.CDType ON dbo.Compensation.Compensation = dbo.CDType.CDTypeID" +
+      " ON dbo.Request.RequestID = dbo.Compensation.RequestID WHERE RequestStatus = 1"
+      ,
+      {
+        nest: true,
+        
+      }
+    );
+  
+    res.json(data);
+    
+  });
+
   router.post('/request/new', async (req, res) => {
     console.log('RequestBody', req.body);
   
@@ -141,7 +217,7 @@ router.get('/players', async (req, res) => {
 
       let reqStatus = {
         RequestID: appReq.RequestID,
-        RequestStatus: 1
+        RequestStatus: 0
       }
 
       const status = await db.RequestStatus.create(reqStatus);

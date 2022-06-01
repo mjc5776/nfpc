@@ -8,6 +8,8 @@ import Profile from './components/Profile';
 import Players from './components/PlayerList/Players';
 import PlayerDetail from './components/PlayerDetail/PlayerDetail';
 import NewRequest from './components/Requests/NewRequest';
+import PendingRequest from './components/Requests/PendingRequest';
+import ApprovedRequest from './components/Requests/ApprovedRequest';
 import { oktaConfig } from './lib/oktaConfig';
 import Navbar from './components/Nav/Navbar';
 
@@ -30,6 +32,8 @@ const App = () => {
           <Route path='/' exact component={Players} />
           <Route path='/playerdetail/:id' component={PlayerDetail} />
           <Route path='/newrequest/:id' component={NewRequest} />
+          <Route path='/pending' component={PendingRequest} />
+          <Route path='/approved' component={ApprovedRequest} />
           <Route path={CALLBACK_PATH} exact component={LoginCallback} />
           <SecureRoute path='/locked' exact component={Locked} />
           <SecureRoute path='/profile' component={Profile} />

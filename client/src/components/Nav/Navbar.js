@@ -38,10 +38,10 @@ const Navbar = () => {
             <MDBNavbarLink active aria-current='page' href='/'>
               Home
             </MDBNavbarLink>
-            <MDBNavbarLink active aria-current='page' href='/'>
+            <MDBNavbarLink active aria-current='page' href='/pending'>
               Pending Requests
             </MDBNavbarLink>
-            <MDBNavbarLink active aria-current='page' href='/'>
+            <MDBNavbarLink active aria-current='page' href='/approved'>
               Approved Requests
             </MDBNavbarLink>
           </MDBNavbarNav>
