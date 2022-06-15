@@ -178,55 +178,72 @@ router.get('/players', async (req, res) => {
   });
 
   router.post('/request/new', async (req, res) => {
+    
     console.log('RequestBody', req.body);
   
      try {
+       const { PlayerID, 
+        RequestDate, 
+        RequestUser, 
+        RequestUserEmail, 
+        RequestTitle, 
+        ReqDescription, 
+        AcctNum, 
+        Status, 
+        LeagueYearID, 
+        PDType,
+        PDTime,
+        PDQty,
+        PDDate,
+        PDLocation,
+        PDComments,
+        CDType,
+        FMV,
+        CDComments
+       } = req.body
+
+        await db.sequelize.transaction(async (transaction) => {
   
-      let request = {
-         PlayerID: req.body.PlayerID,
-         RequestDate: req.body.RequestDate,
-         RequestUser: req.body.RequestUser,
-         RequestUserEmail: req.body.RequestEmail,
-         RequestTitle: req.body.RequestTitle,
-         ReqDescription: req.body.ReqDescription,
-         AcctNum:req.body.AcctNum 
-      };
-  
-      const appReq = await db.Request.create(request);
+       const newRequest = await db.Request.create({
+        PlayerID,
+        LeagueYearID,
+        RequestDate,
+        RequestUser,
+        RequestUserEmail,
+        RequestTitle,
+        ReqDescription,
+        Status,
+        AcctNum,
+       }, { transaction });
+      
+      
+      
+      await db.PlayerDeliverable.create({
+        RequestID: newRequest.RequestID,
+         PDType,
+         PDTime,
+         PDQty,
+         PDDate,
+         PDLocation,
+         PDComments
+      }, { transaction });
+      
       
 
-      let playerDeliver = {
-        RequestID: appReq.RequestID,
-        PDType: req.body.PDType,
-        PDTime: req.body.PDTime,
-        PDQty: req.body.PDQty,
-        PDDate: req.body.PDDate,
-        PDLocation: req.body.PDLocation,
-        PDComments: req.body.PDComments,
-      }
-      const pd = await db.PlayerDeliverable.create(playerDeliver);
+      await db.ClubDeliverable.create({
+        RequestID: newRequest.RequestID,
+        CDType,
+        FMV,
+        CDComments
+      }, { transaction });
+
       
-      let clubDeliver = {
-        RequestID: appReq.RequestID,
-        CDType: req.body.CDType,
-        FMV: req.body.FMV,
-        CDComments: req.body.CDComments,
-      }
-
-      const cd = await db.ClubDeliverable.create(clubDeliver);
-
-      let reqStatus = {
-        RequestID: appReq.RequestID,
-        RequestStatus: 0
-      }
-
-      const status = await db.RequestStatus.create(reqStatus);
-
+       })
     } catch (e) {
-      console.log(e);
-      res.status(400).json();
+      response.status(500).json({ message: e })
     }
   });
+  
 
 
   

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
         },
         CDType: {
-            type: DataTypes.INTEGER
+            type: DataTypes.STRING
         },
         FMV: {
             type: DataTypes.DECIMAL

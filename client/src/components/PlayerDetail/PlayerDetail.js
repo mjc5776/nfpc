@@ -14,12 +14,12 @@ const PlayerDetail = () => {
       <Navbar
         id={paramID}
     />
-      <PlayerHeader
+      {/* <PlayerHeader
         id={paramID}
       />
       <RequestHistory
         id={paramID}
-      />
+      /> */}
     </>
   );
 };

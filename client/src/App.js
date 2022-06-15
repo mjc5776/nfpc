@@ -29,7 +29,7 @@ const App = () => {
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
       <Router>
         <Switch>
-          <Route path='/' exact component={Players} />
+          <SecureRoute path='/' exact component={Players} />
           <Route path='/playerdetail/:id' component={PlayerDetail} />
           <Route path='/newrequest/:id' component={NewRequest} />
           <Route path='/pending' component={PendingRequest} />

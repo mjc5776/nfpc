@@ -3,7 +3,7 @@
     "send_emails": false,
     "username": "dbuser",
     "password": "Br0nk0s19!",
-    "database": "NFPC_Dev",
+    "database": "NonFootballPlayerComp",
     "host": "dovsv-db03",
     "dialect": "mssql",
     "logging": false,

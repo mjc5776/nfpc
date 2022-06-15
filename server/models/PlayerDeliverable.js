@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
         },
         PDType: {
-            type: DataTypes.INTEGER
+            type: DataTypes.STRING
         },
         PDTime: {
-            type: DataTypes.TIME
+            type: DataTypes.INTEGER
         },
         PDQty: {
-            type: DataTypes.INTEGER
+            type: DataTypes.STRING
         },
         PDDate: {
             type: DataTypes.DATEONLY

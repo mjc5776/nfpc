@@ -16,9 +16,9 @@ const CardItem = ({ id, path, src, playerName, contract }) => {
             <div className="top-right"> { contract && contract} </div>
             <div className="top-left">{playerName}</div> 
            <div>
-             <CardData
+             {/* <CardData
               id={id}
-              />
+              /> */}
            </div>
           </figure>
         </Link>

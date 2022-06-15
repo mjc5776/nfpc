@@ -8,8 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         PlayerID: {
-        type: DataTypes.INTEGER
+            type: DataTypes.INTEGER
         },
+        LeagueYearID: {
+            type: DataTypes.INTEGER
+            },
         RequestDate: {
             type: DataTypes.DATEONLY
         },
@@ -25,8 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         ReqDescription: {
             type: DataTypes.STRING
         },
-        Approved: {
-            type: DataTypes.INTEGER
+        Status: {
+            type: DataTypes.STRING
         },
         Contract: {
             type: DataTypes.INTEGER

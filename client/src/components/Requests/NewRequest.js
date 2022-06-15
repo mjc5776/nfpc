@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import {
   MDBContainer,
   MDBRow,
@@ -28,6 +29,7 @@ const NewRequest = () => {
   const [cdType, setCDType] = useState();
   const [fmv, setFMV] = useState();
   const [cdNotes, setCDNotes] = useState();
+  //const [reqDate, setReqDate] = useState(moment())
 
   const params = useParams();
   const paramID = params.id;
@@ -37,11 +39,17 @@ const NewRequest = () => {
   const createRequest = () => {
     console.log('Create request');
 
-    const newRequest = {
+
+
+  // console.log('Request Data', newRequest);
+
+  axios.post(`${process.env.REACT_APP_HOST_NAME}/request/new`, {
+      
       PlayerID: paramID,
-      RequestDate: '2022-05-20',
+      LeagueYearID: 1,
+      RequestDate: moment(),
       RequestUser: 'Mike Corey',
-      RequestEmail: 'Mike.Corey@broncos.nfl.net',
+      RequestUserEmail: 'mike.corey@broncos.nfl.net',
       RequestTitle: title,
       ReqDescription: description,
       AcctNum: acctNum,
@@ -53,28 +61,30 @@ const NewRequest = () => {
       PDComments: pdNotes,
       CDType: cdType,
       FMV: fmv,
-      CDComments: cdNotes 
-
-  };
-
-  console.log('Request Data', newRequest);
-
-  axios.post(`${process.env.REACT_APP_HOST_NAME}/request/new`, newRequest)
-      .then(history.goBack())
+      CDComments: cdNotes,
+      Status: 'Pending'
+      
+    })
+    .then(response => {
+      console.log('Response', response);
+      setRequestData(response.data);
+  })
+       //.then(history.goBack())
       .catch(error => {
-          this.setError({ errorMessage: error.message });
+          setError({ errorMessage: error.message });
           console.error('There was an error!', error);
       });
 
 };
 
 const handlePDDate=(pdDate) => {
-    setPDDate(pdDate);
+    const PDDate = moment(pdDate, "MM-DD-YYYY")
+    setPDDate(PDDate);
 }
 
   return (
     <>
-      <PlayerHeader />
+      {/* <PlayerHeader /> */}
       <MDBContainer>
         <>
           <h1>Player Request</h1>
@@ -133,14 +143,14 @@ const handlePDDate=(pdDate) => {
                 <option value='' defaultValue>
                   Type
                 </option>
-                <option value='1'>Autograph</option>
-                <option value='2'>Meet and Greet</option>
-                <option value='3'>Personal Appearance</option>
-                <option value='4'>Radio Appearance</option>
-                <option value='5'>Radio Spot</option>
-                <option value='6'>TV Appearance</option>
-                <option value='7'>TV Spot</option>
-                <option value='8'>Other</option>
+                <option value='Autograph'>Autograph</option>
+                <option value='Meet and Greet'>Meet and Greet</option>
+                <option value='Personal Appearance'>Personal Appearance</option>
+                <option value='Radio Appearance'>Radio Appearance</option>
+                <option value='Radio Spot'>Radio Spot</option>
+                <option value='TV Appearance'>TV Appearance</option>
+                <option value='TV Spot'>TV Spot</option>
+                <option value='Other'>Other</option>
               </select>
             </div>
           </div>
@@ -185,10 +195,6 @@ const handlePDDate=(pdDate) => {
                     format='mm/dd/yyyy' 
                     inputToggle
                     onChange={handlePDDate} 
-                    // onChange={(e) => {
-                    //     const selectedDate = e.target.value;
-                    //     setPDDate(selectedDate);
-                    //   }}
                     />
               </div>
             </div>
@@ -239,14 +245,14 @@ const handlePDDate=(pdDate) => {
                   <option value='' defaultValue>
                     Type
                   </option>
-                  <option value='1'>Cash</option>
-                  <option value='2'>Charity Contribution</option>
-                  <option value='3'>Gift Certificate</option>
-                  <option value='4'>Merchandise</option>
-                  <option value='5'>Suites</option>
-                  <option value='6'>Tickets</option>
-                  <option value='7'>Tuition Reimbursement</option>
-                  <option value='8'>Other</option>
+                  <option value='Cash'>Cash</option>
+                  <option value='Charity Contribution'>Charity Contribution</option>
+                  <option value='Gift Certificate'>Gift Certificate</option>
+                  <option value='Merchandise'>Merchandise</option>
+                  <option value='Suites'>Suites</option>
+                  <option value='Tickets'>Tickets</option>
+                  <option value='Tuition Reimbursement'>Tuition Reimbursement</option>
+                  <option value='Other'>Other</option>
                 </select>
               </div>
             </div>
