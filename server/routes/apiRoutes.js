@@ -177,6 +177,23 @@ router.get('/players', async (req, res) => {
     
   });
 
+
+  router.get('/leagueyear', async (req, res) => { 
+
+    let data = await db.sequelize.query(
+      "SELECT LeagueYearID, StartDate, EndDate, Active, LeagueYear, CompMax," +
+      " AppearMax FROM NonFootballPlayerComp.dbo.LeagueYear Where Active = 1"
+      ,
+      {
+        nest: true,
+        
+      }
+    );
+  
+    res.json(data);
+    
+  });
+
   router.post('/request/new', async (req, res) => {
     
     console.log('RequestBody', req.body);
@@ -240,7 +257,7 @@ router.get('/players', async (req, res) => {
       
        })
     } catch (e) {
-      response.status(500).json({ message: e })
+      res.status(500).json({ message: e })
     }
   });
   

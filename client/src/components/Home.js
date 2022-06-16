@@ -3,7 +3,7 @@ import { useOktaAuth } from '@okta/okta-react';
 
 const Home = () => {
   const { authState, oktaAuth } = useOktaAuth();
-  const login = () => oktaAuth.signInWithRedirect({ originalUri: '/profile ' });
+  const login = () => oktaAuth.signInWithRedirect({ originalUri: '/players ' });
 
   if (!authState) {
     return <div>Loading authentication...</div>;
@@ -14,7 +14,8 @@ const Home = () => {
       </div>
     );
   } else {
-    return 'User authenticated.';
+    // return 'User authenticated.';
+    login()
   }
 };
 

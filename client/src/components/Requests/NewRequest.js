@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 import axios from 'axios';
 import moment from 'moment';
 import {
@@ -14,6 +15,14 @@ import PlayerHeader from '../PlayerHeader/PlayerHeader';
 import { useParams, useHistory } from 'react-router-dom';
 
 const NewRequest = () => {
+  const { authState, oktaAuth } = useOktaAuth();
+
+  const [userInfo, setUserInfo] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [leagueYear, setLeagueYear] = useState(null);
+  const [compMax, setCompMax] = useState(null);
+  const [appearMax, setAppearMax] = useState(null);
   const [requestData, setRequestData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
@@ -36,20 +45,50 @@ const NewRequest = () => {
 
   let history = useHistory();
 
+  const leagueData = async() => {
+    const data = await axios.get(`${process.env.REACT_APP_HOST_NAME}/leagueyear`);
+    
+    setLeagueYear(data.data[0].LeagueYearID);
+    setCompMax(data.data[0].CompMax);
+    setAppearMax(data.data[0].AppearMax);
+    console.log('####League Year', leagueYear);
+  };
+
+  useEffect(() => {
+    if (!authState || !authState.isAuthenticated) {
+      setUserInfo(null);
+    } else {
+      oktaAuth.getUser().then((info) => {
+        setUserInfo(info)
+        setUserName(info.name);
+        setUserEmail(info.email);
+      });
+
+      leagueData();
+    }
+  }, [authState, oktaAuth, leagueYear]); //Update if authState changes
+
+  if (!userInfo) {
+    return (
+      <div>
+        <p>Fetching user profile...</p>
+      </div>
+    );
+  }
+
+
   const createRequest = () => {
     console.log('Create request');
-
-
 
   // console.log('Request Data', newRequest);
 
   axios.post(`${process.env.REACT_APP_HOST_NAME}/request/new`, {
       
       PlayerID: paramID,
-      LeagueYearID: 1,
+      LeagueYearID: leagueYear,
       RequestDate: moment(),
-      RequestUser: 'Mike Corey',
-      RequestUserEmail: 'mike.corey@broncos.nfl.net',
+      RequestUser: userName,
+      RequestUserEmail: userEmail,
       RequestTitle: title,
       ReqDescription: description,
       AcctNum: acctNum,

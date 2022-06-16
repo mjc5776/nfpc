@@ -10,6 +10,7 @@ const Profile = () => {
       setUserInfo(null);
     } else {
       oktaAuth.getUser().then((info) => {
+        console.log('User Info', info);
         setUserInfo(info);
       });
     }
@@ -26,19 +27,26 @@ const Profile = () => {
   return (
     <>
       <div>
-        {Object.entries(userInfo).map((claimEntry) => {
+        {/* {Object.entries(userInfo).map((claimEntry) => {
           const claimName = claimEntry[0];
-          const claimValue = claimEntry[1];
+           const claimValue = claimEntry[1];
           const claimId = `claim-${claimName}`;
           return (
             <>
-              <div>Claim Name{claimName}</div>
+              <div>Claim Name: {claimName}</div>
               <div>{claimValue.toString()}</div>
             </>
           );
-        })}
-      </div>
-    </>
+        })} */}
+        <div>
+          {userInfo.given_name} {userInfo.family_name}
+        </div>
+        <div>
+          {userInfo.email}
+        </div>
+        </div>
+      </>
+    
   );
 };
 
