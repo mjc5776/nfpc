@@ -16,10 +16,10 @@ const PlayerDetail = () => {
     />
       {/* <PlayerHeader
         id={paramID}
-      />
+      /> */}
       <RequestHistory
         id={paramID}
-      /> */}
+      />
     </>
   );
 };

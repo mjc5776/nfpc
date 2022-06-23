@@ -30,13 +30,13 @@ const App = () => {
       <Router>
         <Switch>
           {/* <SecureRoute path='/' exact component={Players} /> */}
-          <SecureRoute path='/' exact component={Home} />
+          <Route path='/' exact component={Home} />
+          <Route path={CALLBACK_PATH} exact component={LoginCallback} />
           <SecureRoute path='/players' exact component={Players} />
           <Route path='/playerdetail/:id' component={PlayerDetail} />
           <Route path='/newrequest/:id' component={NewRequest} />
           <Route path='/pending' component={PendingRequest} />
           <Route path='/approved' component={ApprovedRequest} />
-          <Route path={CALLBACK_PATH} exact component={Players} />
           <SecureRoute path='/locked' exact component={Locked} />
           <SecureRoute path='/profile' component={Profile} />
         </Switch>

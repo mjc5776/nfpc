@@ -48,11 +48,12 @@ const PendingRequest = () => {
   }, []);
 
   return (
-    //<MDBContainer>
+   
     <>
       <Navbar />
       <h2>Pending Requests</h2>
       <hr />
+      <MDBContainer>
       <MDBTable striped>
         <MDBTableHead>
           <tr>
@@ -60,7 +61,6 @@ const PendingRequest = () => {
             <th scope='col'>Date</th>
             <th scope='col'>Player Name</th>
             <th scope='col'>Request Type</th>
-            <th scope='col'>Title</th>
             <th scope='col'>Description</th>
             <th scope='col'>Location</th>
             <th scope='col'>Date</th>
@@ -78,7 +78,6 @@ const PendingRequest = () => {
               <td className=''>{row.RequestDate}</td>
               <td className='row-data'>{row.PlayerName}</td>
               <td className='row-data'>{row.PDType}</td>
-              <td className=''>{row.RequestTitle}</td>
               <td className=''>{row.ReqDescription}</td>
               <td className=''>{row.PDLocation}</td>
               <td className=''>{row.PDDate}</td>
@@ -94,8 +93,9 @@ const PendingRequest = () => {
           ))}
         </MDBTableBody>
       </MDBTable>
+      </MDBContainer>
     </>
-    // </MDBContainer>
+     
   );
 };
 

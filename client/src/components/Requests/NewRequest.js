@@ -51,17 +51,19 @@ const NewRequest = () => {
     setLeagueYear(data.data[0].LeagueYearID);
     setCompMax(data.data[0].CompMax);
     setAppearMax(data.data[0].AppearMax);
-    console.log('####League Year', leagueYear);
+   
   };
 
   useEffect(() => {
     if (!authState || !authState.isAuthenticated) {
       setUserInfo(null);
+      console.log('User Info:', 'Not Set');
     } else {
       oktaAuth.getUser().then((info) => {
         setUserInfo(info)
         setUserName(info.name);
         setUserEmail(info.email);
+        console.log('User Info', userInfo);
       });
 
       leagueData();
@@ -101,14 +103,14 @@ const NewRequest = () => {
       CDType: cdType,
       FMV: fmv,
       CDComments: cdNotes,
-      Status: 'Pending'
+      Status: 'Pending Approval'
       
     })
     .then(response => {
       console.log('Response', response);
       setRequestData(response.data);
   })
-       //.then(history.goBack())
+      .then(history.goBack())
       .catch(error => {
           setError({ errorMessage: error.message });
           console.error('There was an error!', error);

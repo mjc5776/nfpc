@@ -5,6 +5,7 @@ import {
   MDBTableBody,
   MDBContainer,
   MDBBtn,
+  MDBDatepicker,
 } from 'mdb-react-ui-kit';
 import Navbar from '../Nav/Navbar';
 
@@ -48,11 +49,12 @@ const ApprovedRequest = () => {
   }, []);
 
   return (
-    //<MDBContainer>
+    
     <>
       <Navbar />
       <h2>Approved Requests</h2>
       <hr />
+      <MDBContainer>
       <MDBTable striped>
         <MDBTableHead>
           <tr>
@@ -82,7 +84,7 @@ const ApprovedRequest = () => {
               <td className=''></td>
               <td className=''>{row.PlayerName}</td>
               <td className=''>{row.AcctNum}</td>
-              <td className=''>{row.UpdatedBy}</td>
+              <td className=''>{row.ApprovedBy}</td>
               <td className=''>
                 <MDBBtn>Save</MDBBtn>
               </td>
@@ -93,8 +95,9 @@ const ApprovedRequest = () => {
           ))}
         </MDBTableBody>
       </MDBTable>
+      </MDBContainer>
     </>
-    // </MDBContainer>
+    
   );
 };
 

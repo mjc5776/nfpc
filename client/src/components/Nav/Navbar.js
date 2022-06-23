@@ -35,7 +35,7 @@ const Navbar = () => {
         </MDBNavbarToggler>
         <MDBCollapse navbar show={showNavSecond}>
           <MDBNavbarNav>
-            <MDBNavbarLink active aria-current='page' href='/'>
+            <MDBNavbarLink active aria-current='page' href='/players'>
               Home
             </MDBNavbarLink>
             <MDBNavbarLink active aria-current='page' href='/pending'>

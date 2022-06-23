@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
         Status: {
             type: DataTypes.STRING
         },
+        ApprovedBy: {
+            type: DataTypes.STRING
+        },
         Contract: {
             type: DataTypes.INTEGER
         },

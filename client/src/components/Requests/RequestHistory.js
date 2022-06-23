@@ -46,7 +46,8 @@ const RequestHistory = () => {
     }, []);
 
   return (
-    // <MDBContainer>
+    
+    <MDBContainer>
       <MDBTable striped>
         <MDBTableHead>
           <tr>
@@ -56,9 +57,7 @@ const RequestHistory = () => {
             <th scope='col'>Type</th>
             <th scope='col'>Date</th>
             <th scope='col'>Compensation</th>
-            <th scope='col'>Request Status</th>
-            <th scope='col'></th>
-            <th scope='col'></th>
+            <th scope='col'>Status</th>
           </tr>
         </MDBTableHead>
         <MDBTableBody>
@@ -69,10 +68,10 @@ const RequestHistory = () => {
           <td className='row-data'>{row.ReqDescription}</td>
           <td className='row-data'>{row.PDType}</td>
           <td className='row-data'>{row.PDDate}</td>
-          <td className=''>{row.CompValue}</td>
-          <td className=''>{row.RequestStatus}</td>
+          <td className=''>{row.FMV}</td>
+          <td className=''>{row.Status}</td>
           <td>
-            <MDBBtn>Delete</MDBBtn>
+            <MDBBtn>Cancel</MDBBtn>
           </td>
           <td>
           <MDBBtn>Contract</MDBBtn>
@@ -81,7 +80,7 @@ const RequestHistory = () => {
         ))}
         </MDBTableBody>
       </MDBTable>
-      // </MDBContainer>
+       </MDBContainer>
   );
 };
 
