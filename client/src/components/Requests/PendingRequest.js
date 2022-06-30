@@ -6,6 +6,10 @@ import {
   MDBContainer,
   MDBBtn,
 } from 'mdb-react-ui-kit';
+
+import swal from 'sweetalert';
+import axios from 'axios';
+
 import Navbar from '../Nav/Navbar';
 
 const PendingRequest = () => {
@@ -47,6 +51,34 @@ const PendingRequest = () => {
     return () => abortCont.abort();
   }, []);
 
+  const approveRequest = (id) => {
+    swal({
+      title: 'Approve this request?',
+      //text: '',
+      //icon: 'warning',
+      buttons: true,
+      //dangerMode: true,
+    }).then((willApprove) => {
+      if (willApprove) {
+        let url = `${process.env.REACT_APP_HOST_NAME}/player/request/approve`;
+
+        axios({
+          method: 'post',
+          url: url,
+          data: {
+            requestID: id,
+          },
+        }).then((res) => {
+          swal('Request Approved', {
+            icon: 'success',
+          }).catch((err) => {
+            console.log(err.message);
+          });
+        });
+      }
+    });
+  };
+
   return (
    
     <>
@@ -84,7 +116,9 @@ const PendingRequest = () => {
               <td className=''>{row.PDTime}</td>
               <td className=''>{row.FMV}</td>
               <td>
-                <MDBBtn>Approve</MDBBtn>
+                <MDBBtn
+                  id={row.RequestID}
+                  onClick={(e) => approveRequest(e.target.id)}>Approve</MDBBtn>
               </td>
               <td>
                 <MDBBtn>Deny</MDBBtn>

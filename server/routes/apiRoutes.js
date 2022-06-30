@@ -76,7 +76,7 @@ router.get('/players', async (req, res) => {
 
     
     let data = await db.sequelize.query(
-    "SELECT dbo.Player.PlayerID, dbo.Request.RequestTitle, dbo.Request.ReqDescription, dbo.PlayerDeliverable.PDType," +
+    "SELECT dbo.Request.RequestID, dbo.Player.PlayerID, dbo.Request.RequestTitle, dbo.Request.ReqDescription, dbo.PlayerDeliverable.PDType," +
     " dbo.PlayerDeliverable.PDDate, dbo.ClubDeliverable.FMV, dbo.Request.Status" +
     " FROM dbo.Player INNER JOIN dbo.Request ON dbo.Player.PlayerID = dbo.Request.PlayerID INNER JOIN" +
     " dbo.PlayerDeliverable ON dbo.Request.RequestID = dbo.PlayerDeliverable.RequestID INNER JOIN" +
@@ -103,7 +103,7 @@ router.get('/players', async (req, res) => {
 
     
     let data = await db.sequelize.query(
-      "SELECT dbo.Player.PlayerID, dbo.Request.RequestDate, dbo.Request.RequestUser, CASE WHEN SigningType = 'Selection List Signing'" +
+      "SELECT dbo.Player.PlayerID, dbo.Request.RequestID, dbo.Request.RequestDate, dbo.Request.RequestUser, CASE WHEN SigningType = 'Selection List Signing'" +
       " OR SigningType = 'Undrafted Rookie Signing' OR SigningType = 'Reserve, Selection List' THEN 'R' END AS Contract," +
       " dbo.Player.FirstName + N' ' + dbo.Player.LastName AS PlayerName, dbo.Request.ReqDescription, dbo.PlayerDeliverable.PDDate," + 
       " dbo.PlayerDeliverable.PDType, dbo.PlayerDeliverable.PDLocation, CAST(dbo.PlayerDeliverable.PDTime AS varchar) + ' ' + dbo.PlayerDeliverable.PDQty AS TimeReq," +
@@ -172,6 +172,20 @@ router.get('/players', async (req, res) => {
     res.json(data);
     
   });
+
+  router.post('/player/request/delete', async (req, res) => {
+    
+    console.log('Request ID', req.body.requestID );
+    const deleteRequest = await db.Request.destroy({ where: { RequestID:req.body.requestID } });
+    
+  })
+
+  router.post('/player/request/approve', async (req, res) => {
+    
+    console.log('Request ID', req.body.requestID );
+    //const approveRequest = await db.Request.update({status: "Approved"},{ where: { RequestID:req.body.requestID } });
+    
+  })
 
 
   router.get('/leagueyear', async (req, res) => { 
