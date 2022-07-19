@@ -183,7 +183,8 @@ router.get('/players', async (req, res) => {
   router.post('/player/request/approve', async (req, res) => {
     
     console.log('Request ID', req.body.requestID );
-    //const approveRequest = await db.Request.update({status: "Approved"},{ where: { RequestID:req.body.requestID } });
+    const approveRequest = await db.Request.update(
+      {Status: "Approved",},{ where: { RequestID:req.body.requestID },});
     
   })
 
@@ -271,6 +272,16 @@ router.get('/players', async (req, res) => {
       
     }
   });
+
+  router.post('/request/approved/payment', async (req, res) => {
+    console.log('Request Body', req.body);
+    try {
+
+    }catch {
+        res.status(500).json({ message: error })
+        
+      }
+  })
   
 
 
