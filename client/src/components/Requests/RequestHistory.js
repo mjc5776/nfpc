@@ -95,6 +95,17 @@ const RequestHistory = () => {
             <th scope='col'>Date</th>
             <th scope='col'>Compensation</th>
             <th scope='col'>Status</th>
+            <th>
+              <MDBBtn
+                tag='a'
+                outline
+                color='primary'
+                className='me-2'
+                href={`/newrequest/${paramID}`}
+              >
+                New Request
+              </MDBBtn>
+            </th>
           </tr>
         </MDBTableHead>
         <MDBTableBody>
@@ -108,11 +119,14 @@ const RequestHistory = () => {
               <td className=''>{row.FMV}</td>
               <td className=''>{row.Status}</td>
               <td>
-                <button 
-                type="button" 
-                className="btn btn-primary"
-                id={row.RequestID}
-                onClick={(e) => cancelRequest(e.target.id)}>Cancel Request</button>
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  id={row.RequestID}
+                  onClick={(e) => cancelRequest(e.target.id)}
+                >
+                  Cancel Request
+                </button>
               </td>
               <td>
                 <MDBBtn>Contract</MDBBtn>

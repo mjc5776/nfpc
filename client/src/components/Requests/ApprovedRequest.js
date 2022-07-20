@@ -13,9 +13,14 @@ import {
 import Navbar from '../Nav/Navbar';
 
 const ApprovedRequest = () => {
+
   const [requestData, setRequestData] = useState([]);
-  const [pdDate, setPDDate] = useState();
-  const [chkNum, setChkNum] = useState();
+  const [requestID, setRequestID] = useState('');
+  const [playerComp, setplayerComp] = useState('');
+  const [compValue, setCompValue] = useState('');
+  const [compDate, setCompDate] = useState('');
+  const [chkNum, setChkNum] = useState('');
+  const [pdDate, setPDDate] = useState('');
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
 
@@ -53,29 +58,28 @@ const ApprovedRequest = () => {
     return () => abortCont.abort();
   }, []);
 
-  const handlePDDate=(pdDate) => {
-    const PDDate = moment(pdDate, "MM-DD-YYYY")
-    setPDDate(PDDate);
+  const handleCompDate=(compDate) => {
+    const CompDate = moment(compDate, "MM-DD-YYYY")
+    setCompDate(CompDate);
 }
 
-const savePayment = () => {
+const savePayment = (id) => {
   console.log('Save Payment');
 
 axios.post(`${process.env.REACT_APP_HOST_NAME}/request/approved/payment`, {
     
-    RequestID: requestID,
-    PlayerID: playerID,
-    Compensation: playerComp,
-    CompValue: compValue,
+    RequestID: id,
+    //PlayerID: playerID,
+    //Compensation: playerComp,
+    //CompValue: compValue,
     CompDate: compDate,
-    ChkNbr: chkNumber
+    ChkNbr: chkNum
     
   })
   .then(response => {
     console.log('Response', response);
     setRequestData(response.data);
 })
-    .then(history.goBack())
     .catch(error => {
         setError({ errorMessage: error.message });
         console.error('There was an error!', error);
@@ -118,7 +122,7 @@ axios.post(`${process.env.REACT_APP_HOST_NAME}/request/approved/payment`, {
                     format='mm/dd/yyyy' 
                     inputToggle
                     inputLabel='Date'
-                    onChange={handlePDDate} 
+                    onChange={handleCompDate} 
                     />
 
               </td>
@@ -139,8 +143,9 @@ axios.post(`${process.env.REACT_APP_HOST_NAME}/request/approved/payment`, {
               {/* <td className=''>{row.ApprovedBy}</td> */}
               <td className=''>
                 <MDBBtn
+                  id={row.RequestID}
                   className='mb-4'
-                  onClick={() => savePayment()}
+                  onClick={(e) => savePayment(e.target.id)}
             >
               Save
             </MDBBtn>

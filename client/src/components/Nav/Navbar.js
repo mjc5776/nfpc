@@ -48,9 +48,9 @@ const Navbar = () => {
         </MDBCollapse>
       </MDBContainer>
       <form className='container-fluid justify-content-end'>
-        <MDBBtn tag='a' outline color="primary" className='me-2' href={`/newrequest/${paramID}`}>
+        {/* <MDBBtn tag='a' outline color="primary" className='me-2' href={`/newrequest/${paramID}`}>
           New Request
-        </MDBBtn>
+        </MDBBtn> */}
       </form>
     </MDBNavbar>
   )
