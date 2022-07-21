@@ -128,14 +128,16 @@ router.get('/player/request/paid', async (req, res) => {
 
 router.get('/player/request/approved', async (req, res) => {
   let data = await db.sequelize.query(
-    'SELECT dbo.Player.PlayerID, dbo.Request.RequestID, dbo.Request.RequestDate, dbo.PlayerDeliverable.PDDate, dbo.Compensation.CompDate,' +
-      ' dbo.Request.RequestUser, dbo.ClubDeliverable.FMV, dbo.Compensation.ChkNbr,' +
-      " dbo.Player.FirstName + N' ' + dbo.Player.LastName AS PlayerName, dbo.Request.AcctNum, dbo.Request.ApprovedBy" +
-      ' FROM dbo.Player INNER JOIN dbo.Request ON dbo.Player.PlayerID = dbo.Request.PlayerID INNER JOIN' +
-      ' dbo.PlayerDeliverable ON dbo.Request.RequestID = dbo.PlayerDeliverable.RequestID INNER JOIN' +
-      ' dbo.ClubDeliverable ON dbo.Request.RequestID = dbo.ClubDeliverable.RequestID LEFT OUTER JOIN' +
-      ' dbo.Compensation ON dbo.Player.PlayerID = dbo.Compensation.PlayerID' +
-      " WHERE(dbo.Request.Status = 'Approved')",
+    'SELECT dbo.Player.PlayerID, dbo.Request.RequestID, dbo.Request.RequestDate, dbo.PlayerDeliverable.PDDate,' +
+    ' dbo.Request.RequestUser, dbo.ClubDeliverable.FMV,' + 
+    " dbo.Player.FirstName + N' ' + dbo.Player.LastName AS PlayerName, dbo.Request.AcctNum, dbo.Request.ApprovedBy," +
+    ' dbo.Compensation.ChkNbr, dbo.Compensation.CompDate' +
+    ' FROM dbo.Player INNER JOIN' +
+    ' dbo.Request ON dbo.Player.PlayerID = dbo.Request.PlayerID INNER JOIN' +
+    ' dbo.PlayerDeliverable ON dbo.Request.RequestID = dbo.PlayerDeliverable.RequestID INNER JOIN' +
+    ' dbo.ClubDeliverable ON dbo.Request.RequestID = dbo.ClubDeliverable.RequestID LEFT OUTER JOIN' +
+    ' dbo.Compensation ON dbo.Request.RequestID = dbo.Compensation.RequestID' +
+    " WHERE(dbo.Request.Status = 'Approved')",
     {
       nest: true,
     }
@@ -153,9 +155,13 @@ router.post('/player/request/delete', async (req, res) => {
 
 router.post('/player/request/approve', async (req, res) => {
   console.log('Request ID', req.body.requestID);
+  const { requestID, approvedBy } = req.body
+  console.log('req body', req.body);
   const approveRequest = await db.Request.update(
-    { Status: 'Approved' },
-    { where: { RequestID: req.body.requestID } }
+    { Status: 'Approved',
+      ApprovedBy: approvedBy
+    },
+    { where: { RequestID: requestID } }
   );
 });
 
@@ -246,6 +252,7 @@ router.post('/request/approved/payment', async (req, res) => {
     const { RequestID, CompDate, ChkNbr } = req.body;
 
     await db.sequelize.transaction(async (transaction) => {
+      console.log('#########Test');
       const playerPayment = await db.Compensation.create(
         {
           RequestID,
@@ -254,10 +261,10 @@ router.post('/request/approved/payment', async (req, res) => {
         },
         { transaction }
       );
-      await db.Request.update(
-        { Status: 'Paid' },
-        { where: { RequestID: RequestID } }
-      )
+      // await db.Request.update(
+      //   { Status: 'Paid' },
+      //   { where: { RequestID: RequestID } }
+      // )
     });
   } catch (error) {
     res.status(500).json({ message: error });

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 import {
   MDBTable,
   MDBTableHead,
@@ -13,14 +14,37 @@ import axios from 'axios';
 import Navbar from '../Nav/Navbar';
 
 const PendingRequest = () => {
+  const { authState, oktaAuth } = useOktaAuth();
+  const [userInfo, setUserInfo] = useState(null);
+  const [userName, setUserName] = useState(null);
   const [requestData, setRequestData] = useState([]);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const abortCont = new AbortController();
+  
+  
+    useEffect(() => {
+      
+      if (!authState || !authState.isAuthenticated) {
+        setUserInfo(null);
+      } else {
+        oktaAuth.getUser().then((info) => {
+          console.log('User Info', info);
+          setUserInfo(info);
+          setUserName(info.name);
+        });
+      }
+    }, [authState, oktaAuth]); //Update if authState changes
+  
+    if (!userInfo) {
+      return (
+        <div>
+          <p>Fetching user profile...</p>
+        </div>
+      );
+    } else
+  
     fetch(`${process.env.REACT_APP_HOST_NAME}/player/request/pending`, {
-      signal: abortCont.signal,
+      
     })
       .then((res) => {
         if (!res.ok) {
@@ -48,8 +72,8 @@ const PendingRequest = () => {
           setError(err.message);
         }
       });
-    return () => abortCont.abort();
-  }, []);
+
+  
 
   const approveRequest = (id) => {
     swal({
@@ -67,6 +91,7 @@ const PendingRequest = () => {
           url: url,
           data: {
             requestID: id,
+            approvedBy: userName
           },
         }).then((res) => {
           swal('Request Approved', {
@@ -78,6 +103,8 @@ const PendingRequest = () => {
       }
     });
   };
+
+  
 
   return (
    
